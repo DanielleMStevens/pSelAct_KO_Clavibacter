@@ -11,6 +11,7 @@
 conda install -c bioconda fastqc
 fastqc DMS92_2_S159_R1_001.fastq.gz DMS92_2_S159_R2_001.fastq.gz
 ```
+This is to quickly assess our read quality. If it looks ok, proceed as normal and if not, adjust protocol as need or consider resequencing.
 
 ## Trimming and Assembling Reads to De Novo Assembly
 
