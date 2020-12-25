@@ -37,6 +37,10 @@ sendsketch.sh DMS92_2_S159_R1_001.fastq.gz
 sendsketch.sh DMS92_2_S159_R2_001.fastq.gz
 ```
 
+Which gives us the output below:
+![](DMS092_R1_sendsketch.png)
+![](DMS092_R2_sendsketch.png)
+
 
 ```
 conda install -c bioconda fastqc
