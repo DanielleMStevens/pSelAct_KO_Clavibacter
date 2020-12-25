@@ -43,6 +43,7 @@ sendsketch.sh DMS92_2_S159_R2_001.fastq.gz
 
 This output above shows that we have some significant contamination of Terribacillus. This will be problematic to downstream processing steps. Since the reads are mostly from one  species, we will do a binning approach where we will map the reads to each genome, Clavibacter michiganensis and Terribacillus, and seperate them into two groups. We will download two genomes, both Terribacillus species, to perform this.
 
+| | Species|Strain|RefSeq ID|
 |-----------|--------------|---------------|--------------|
 |ASM72536v1|Terribacillus goriensis|MP602|GCF_000725365.1|
 |IMG-taxon 2636416060 annotated assembly|Terribacillus saccharophilus|DSM 21619|GCF_900110015.1|
