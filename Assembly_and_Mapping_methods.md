@@ -43,10 +43,26 @@ sendsketch.sh DMS92_2_S159_R2_001.fastq.gz
 
 This output above shows that we have some significant contamination of Terribacillus. This will be problematic to downstream processing steps. Since the reads are mostly from one  species, we will do a binning approach where we will map the reads to each genome, Clavibacter michiganensis and Terribacillus, and seperate them into two groups. We will download two genomes, both Terribacillus species, to perform this.
 
-| | Species|Strain|RefSeq ID|
+| | Species|Strain|RefSeq Accession|
 |-----------|--------------|---------------|--------------|
 |ASM72536v1|Terribacillus goriensis|MP602|GCF_000725365.1|
 |IMG-taxon 2636416060 annotated assembly|Terribacillus saccharophilus|DSM 21619|GCF_900110015.1|
+
+The RefSeq Accession numbers will be stored in a text file. In this case, they are stoe in the Terribacillus_genomes_filter_contamination.txt. It looks like this:
+
+```
+cat Terribacillus_genomes_filter_contamination.txt
+GCF_000725365.1
+GCF_900110015.1
+```
+
+We can use a package known as bioinf_tools, from AstroMike (great programmer fyi), which we can download using conda.
+
+```
+conda install -c conda-forge -c bioconda -c defaults -c astrobiomike bit
+bit-dl-ncbi-assemblies -w Terribacillus_genomes_filter_contamination.txt -f fasta
+
+```
 
 
 
