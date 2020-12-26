@@ -61,15 +61,12 @@ We can use a package known as bioinf_tools [package here](https://github.com/Ast
 ```
 conda install -c conda-forge -c bioconda -c defaults -c astrobiomike bit
 bit-dl-ncbi-assemblies -w Terribacillus_genomes_filter_contamination.txt -f fasta
-
 ```
 
 Now that we have both genomes downloaded, we can use bbsplit.sh from bbtools to bin the reads based on their hits. 
 
 ```
-
 bbsplit.sh in1=./raw_reads/DMS92_2_S159_R1_001.fastq.gz in2=./raw_reads/DMS92_2_S159_R2_001.fastq.gz ref=/media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta,./GCF_000725365.1.fa.gz,./GCF_900110015.1.fa.gz basename=out_%.fq outu1=clean1.fq outu2=clean2.fq
-
 ```
 
 As we can see from the output, we had a lot of reads that were the contaminant:
@@ -89,6 +86,21 @@ sendsketch.sh in=./out_CM_CASJ002.fq
 ```
 
 ![](/images/Cleaned_binned_reads_DMS092.png)
+
+
+Additionally, we can use [sourmash](https://github.com/dib-lab/sourmash) to further confirm this:
+
+```
+conda install -c conda-forge -c bioconda sourmash
+sourmash compute -k 31 *.fq *.fa /media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta
+sourmash compare *.sig -o cmp
+sourmash plot cmp --labels
+```
+
+![](/Files_for_cleaning_reads/cmp.matrix.png)
+
+Here we can see our reads match closely to our Clavibacter genome CASJ002 based on the Jaccrd distance.
+
 
 However, one thing that we notice is now our paired reads are interweived. We need to seperate these back out using reformate.sh. We also need to renaem the file since these reads are from DMS092 isolate.
 
