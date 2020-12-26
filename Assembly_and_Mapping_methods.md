@@ -41,7 +41,7 @@ sendsketch.sh DMS92_2_S159_R2_001.fastq.gz
 ![](/images/DMS092_R2_sendsketch.png)
 
 
-This output above shows that we have some significant contamination of Terribacillus. This will be problematic to downstream processing steps. Since the reads are mostly from one  species, we will do a binning approach where we will map the reads to each genome, Clavibacter michiganensis and Terribacillus, and seperate them into two groups. We will download two genomes, both Terribacillus species, to perform this.
+This output above shows that we have some significant contamination of Terribacillus. This will be problematic to downstream processing steps. Since the reads are mostly from onespecies, we will do a binning approach where we will map the reads to each genome, Clavibacter michiganensis and Terribacillus, and seperate them into two groups. We will download two genomes, both Terribacillus species, to perform this. More info on this can be found [here](http://seqanswers.com/forums/showthread.php?t=41288).
 
 | | Species|Strain|RefSeq Accession|
 |-----------|--------------|---------------|--------------|
