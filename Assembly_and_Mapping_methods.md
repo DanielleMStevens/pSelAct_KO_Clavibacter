@@ -1,4 +1,4 @@
-# Methods for Genome Assembly, Comparison, and Mappping of Reads
+# Methods for Genome Assembly, Comparison, and Mappping of Reads for CASJ002ΔchpE-ppaC 
 
 
 ## Downloading Reads from Google Drive - still broken need to fix
