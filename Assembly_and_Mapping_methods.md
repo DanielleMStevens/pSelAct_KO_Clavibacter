@@ -27,7 +27,7 @@ https://drive.google.com/file/d/1JZWkfG4Zx_b4tIx5YsevPqMuq8hF3_am/view?usp=shari
 
 ```
 
-## Assessing read Quality + Checking for Contamination
+## Checking for Contamination + Assessing Read Quality 
 
 First, we are going to check and see if there is any contaimination in our dataset. One way to do this is to use BBtools, sendsketch script, which breaks up reads into kmers and returns the closest hits. 
 
@@ -37,8 +37,8 @@ sendsketch.sh DMS92_2_S159_R1_001.fastq.gz
 sendsketch.sh DMS92_2_S159_R2_001.fastq.gz
 ```
 
-![](DMS092_R1_sendsketch.png)
-![](DMS092_R2_sendsketch.png)
+![](/images/DMS092_R1_sendsketch.png)
+![](/images/DMS092_R2_sendsketch.png)
 
 
 This output above shows that we have some significant contamination of Terribacillus. This will be problematic to downstream processing steps. Since the reads are mostly from one  species, we will do a binning approach where we will map the reads to each genome, Clavibacter michiganensis and Terribacillus, and seperate them into two groups. We will download two genomes, both Terribacillus species, to perform this.
@@ -56,7 +56,7 @@ GCF_000725365.1
 GCF_900110015.1
 ```
 
-We can use a package known as bioinf_tools, from AstroMike (great programmer fyi), which we can download using conda.
+We can use a package known as bioinf_tools [package here](https://github.com/AstrobioMike/bioinf_tools), which we can download using conda.
 
 ```
 conda install -c conda-forge -c bioconda -c defaults -c astrobiomike bit
@@ -64,10 +64,40 @@ bit-dl-ncbi-assemblies -w Terribacillus_genomes_filter_contamination.txt -f fast
 
 ```
 
-
-
+Now that we have both genomes downloaded, we can use bbsplit.sh from bbtools to bin the reads based on their hits. 
 
 ```
+
+bbsplit.sh in1=./raw_reads/DMS92_2_S159_R1_001.fastq.gz in2=./raw_reads/DMS92_2_S159_R2_001.fastq.gz ref=/media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta,./GCF_000725365.1.fa.gz,./GCF_900110015.1.fa.gz basename=out_%.fq outu1=clean1.fq outu2=clean2.fq
+
+```
+
+As we can see from the output, we had a lot of reads that were the contaminant:
+
+|File Name|Description|Mb of Data|
+|--------|---------|------------|
+|out_CM_CASJ002.fq|Reads Mapped to Our Genome|217|
+|out_GCF_000725365.1.fq|Reads Mapped to Contaminant Reference Genome #1|440.8|
+|out_GCF_900110015.1.fq|Reads Mapped to Contaminant Reference Genome #2|242.3|
+|clean1.fq|forward reads which did not map|89|
+|clean2.fq|reveres reads which did not map|89.1|
+
+And we can confirm our reads are cleaned up by sending this output through sendsketch.sh again.
+
+```
+sendsketch.sh in=./out_CM_CASJ002.fq
+```
+
+![](/images/Cleaned_binned_reads_DMS092.png)
+
+However, one thing that we notice is now our paired reads are interweived. We need to seperate these back out using reformate.sh. We also need to renaem the file since these reads are from DMS092 isolate.
+
+```
+reformat.sh in=./out_DMS092.fq out1=out_DMS092_R1.fq out2=out_DMS092_R2.fq
+```
+
+
+
 conda install -c bioconda fastqc
 fastqc DMS92_2_S159_R1_001.fastq.gz DMS92_2_S159_R2_001.fastq.gz
 ```
