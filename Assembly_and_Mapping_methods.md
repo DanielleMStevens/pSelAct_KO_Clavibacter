@@ -29,7 +29,14 @@ https://drive.google.com/file/d/1JZWkfG4Zx_b4tIx5YsevPqMuq8hF3_am/view?usp=shari
 
 ## Checking for Contamination + Assessing Read Quality 
 
-First, we are going to check and see if there is any contaimination in our dataset. One way to do this is to use BBtools, sendsketch script, which breaks up reads into kmers and returns the closest hits. 
+First, we are going to check the read quality of our dataset. We can use fastqc via conda to easily check this.
+
+```
+conda install -c bioconda fastqc
+fastqc DMS92_2_S159_R1_001.fastq.gz DMS92_2_S159_R2_001.fastq.gz
+```
+
+We can find the results [here](/raw_reads/DMS92_2_S159_R1_001_fastqc.html) for read set 1 and [here](/raw_reads/DMS92_2_S159_R2_001_fastqc.html) for read set 2 and quickly assess our read quality. Overall, the read quality looks ok, but based on the average GC-content around 48 percent (which is way too low for Clavibacter) and the bimodal distribution of the sequences across GC-content means there is definitely contamination in our read data set. We can them confirm this using BBtools sendsketch script, which breaks up reads into kmers and returns the closest hits. 
 
 ```
 For example:
@@ -66,18 +73,20 @@ bit-dl-ncbi-assemblies -w Terribacillus_genomes_filter_contamination.txt -f fast
 Now that we have both genomes downloaded, we can use bbsplit.sh from bbtools to bin the reads based on their hits. 
 
 ```
-bbsplit.sh in1=./raw_reads/DMS92_2_S159_R1_001.fastq.gz in2=./raw_reads/DMS92_2_S159_R2_001.fastq.gz ref=/media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta,./GCF_000725365.1.fa.gz,./GCF_900110015.1.fa.gz basename=out_%.fq outu1=clean1.fq outu2=clean2.fq
+bbsplit.sh in1=./raw_reads/DMS92_2_S159_R1_001.fastq.gz in2=./raw_reads/DMS92_2_S159_R2_001.fastq.gz\
+ref=/media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta,./GCF_000725365.1.fa.gz,\
+./GCF_900110015.1.fa.gz basename=out_%.fq outu1=clean1.fq outu2=clean2.fq
 ```
 
 As we can see from the output, we had a lot of reads that were the contaminant:
 
 |File Name|Description|Mb of Data|
 |--------|---------|------------|
-|out_CM_CASJ002.fq|Reads Mapped to Our Genome|217|
-|out_GCF_000725365.1.fq|Reads Mapped to Contaminant Reference Genome #1|440.8|
-|out_GCF_900110015.1.fq|Reads Mapped to Contaminant Reference Genome #2|242.3|
-|clean1.fq|forward reads which did not map|89|
-|clean2.fq|reveres reads which did not map|89.1|
+|out_CM_CASJ002.fq|Reads Mapped to Our Genome|217 Mb|
+|out_GCF_000725365.1.fq|Reads Mapped to Contaminant Reference Genome #1|440.8 Mb|
+|out_GCF_900110015.1.fq|Reads Mapped to Contaminant Reference Genome #2|242.3 MB|
+|clean1.fq|forward reads which did not map|89 Mb|
+|clean2.fq|reveres reads which did not map|89.1 Bm|
 
 And we can confirm our reads are cleaned up by sending this output through sendsketch.sh again.
 
@@ -99,21 +108,19 @@ sourmash plot cmp --labels
 
 ![](/Files_for_cleanning_reads/cmp.matrix.png)
 
-Here we can see our reads match closely to our Clavibacter genome CASJ002 based on the Jaccrd distance.
-
-
-However, one thing that we notice is now our paired reads are interweived. We need to seperate these back out using reformate.sh. We also need to renaem the file since these reads are from DMS092 isolate.
+Here we can see our reads match closely to our Clavibacter genome CASJ002 based on the Jaccrd distance. However, one thing that we notice is now our paired reads are interweived. We need to seperate these back out using reformate.sh. We also need to rename the file since these reads are from DMS092 isolate.
 
 ```
 reformat.sh in=./out_DMS092.fq out1=out_DMS092_R1.fq out2=out_DMS092_R2.fq
 ```
 
+Now we need to recheck the quality of the filtered reads to assess how much trimming we need do (outside of the adapters themselves).
 
-
-conda install -c bioconda fastqc
-fastqc DMS92_2_S159_R1_001.fastq.gz DMS92_2_S159_R2_001.fastq.gz
 ```
-This is to quickly assess our read quality. If it looks ok, proceed as normal and if not, adjust protocol as need or consider resequencing.
+fastqc out_DMS092_R1.fq out_DMS092_R2.fq
+```
+
+We can find the results [here](/fastqc_resultd/out_DMS092_R1_fastqc.html) for read set 1 and [here](fastqc_resultd/out_DMS092_R2_fastqc.html) for read set 2. This is to quickly assess our read quality. Overall,the read quality looks ok. The 
 
 
 
