@@ -1,8 +1,8 @@
 # Methods for Genome Assembly, Comparison, and Mappping of Reads for CASJ002ΔchpE-ppaC 
 
 ## Table of Contents
-  [Downloading Reads from Google Drive](Downloading-Reads-from-Google-Drive)
-  [ Checking for Contamination + Assessing Read Quality](Checking-for-Contamination-+-Assessing-Read-Quality)
+  [Downloading Reads from Google Drive](#Downloading-Reads-from-Google-Drive)
+  [ Checking for Contamination + Assessing Read Quality](#Checking-for-Contamination-Assessing-Read-Quality)
 
 
 ## Downloading Reads from Google Drive 
