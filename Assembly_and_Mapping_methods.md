@@ -2,7 +2,10 @@
 
 ## Table of Contents
   [Downloading Reads from Google Drive](#Downloading-Reads-from-Google-Drive)
-  [ Checking for Contamination + Assessing Read Quality](#Checking-for-Contamination-Assessing-Read-Quality)
+  </br>
+  [Checking for Contamination + Assessing Read Quality](#Checking-for-Contamination-Assessing-Read-Quality)
+  </br>
+  [Trimming Reads](#Trimming-Reads)
 
 
 ## Downloading Reads from Google Drive 
