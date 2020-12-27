@@ -1,9 +1,12 @@
 # Methods for Genome Assembly, Comparison, and Mappping of Reads for CASJ002ΔchpE-ppaC 
 
-## Table of C
+## Table of Contents
+  [Downloading Reads from Google Drive](Downloading-Reads-from-Google-Drive)
+  [ Checking for Contamination + Assessing Read Quality](Checking-for-Contamination-+-Assessing-Read-Quality)
 
 
-## Downloading Reads from Google Drive - still broken need to fix
+## Downloading Reads from Google Drive 
+This is broken and need to be fixed.
 
 First, I have stored the raw read data in google drive as a safe keeping. In order to then work with it, we need to download it. To do so, we can use wget and bypass some of the security measures by adding the '--ni-check-certificate'. To find more information, check out this [page](https://medium.com/tinghaochen/how-to-download-files-from-google-drive-through-terminal-4a6802707dbb).
 
@@ -86,9 +89,9 @@ As we can see from the output, we had a lot of reads that were the contaminant:
 |--------|---------|------------|
 |out_CM_CASJ002.fq|Reads Mapped to Our Genome|217 Mb|
 |out_GCF_000725365.1.fq|Reads Mapped to Contaminant Reference Genome #1|440.8 Mb|
-|out_GCF_900110015.1.fq|Reads Mapped to Contaminant Reference Genome #2|242.3 MB|
+|out_GCF_900110015.1.fq|Reads Mapped to Contaminant Reference Genome #2|242.3 Mb|
 |clean1.fq|forward reads which did not map|89 Mb|
-|clean2.fq|reveres reads which did not map|89.1 Bm|
+|clean2.fq|reveres reads which did not map|89.1 Mb|
 
 And we can confirm our reads are cleaned up by sending this output through sendsketch.sh again.
 
@@ -108,7 +111,7 @@ sourmash compare *.sig -o cmp
 sourmash plot cmp --labels
 ```
 
-![](/Files_for_cleanning_reads/cmp.matrix.png =100x50)
+![](/Files_for_cleanning_reads/cmp.matrix.png)
 
 Here we can see our reads match closely to our Clavibacter genome CASJ002 based on the Jaccrd distance. However, one thing that we notice is now our paired reads are interweived. We need to seperate these back out using reformate.sh. We also need to rename the file since these reads are from DMS092 isolate.
 
@@ -122,32 +125,40 @@ Now we need to recheck the quality of the filtered reads to assess how much trim
 fastqc out_DMS092_R1.fq out_DMS092_R2.fq
 ```
 
-We can find the results [here](/fastqc_resultd/out_DMS092_R1_fastqc.html) for read set 1 and [here](/fastqc_resultd/out_DMS092_R2_fastqc.html) for read set 2. This is to quickly assess our read quality. Overall,the read quality looks ok. The 
+We can find the results [here](/fastqc_resultd/out_DMS092_R1_fastqc.html) for read set 1 and [here](/fastqc_resultd/out_DMS092_R2_fastqc.html) for read set 2. This is to quickly assess our read quality. Overall, the read quality looks ok. They need a little trimming on the end, but that shouldn't be a problem.
 
 
 
+## Trimming Reads 
 
-## Trimming and Assembling Reads to De Novo Assembly
+Now that are reads are removed from contaminants, we need to trim off the adapters and the edges were the quality drops. Here we can use a tool called trimmomatic, which again we can install using conda.
 
 ```
-trimmomatic PE {input.read01} {input.read02} {output.pe.1} {output.se.1} {output.pe.2} {output.se.2} LEADING:2 TRAILING:2 \
-		SLIDINGWINDOW:4:15 \
-		MINLEN:25"
+conda install -c conda-forge -c bioconda trimmomatic
 
-# In this case, each statement should be swapped out for the names of the files being inputed and outputed. An example below:
+trimmomatic PE out_DMS092_R1.fq out_DMS092_R2.fq DMS92_1.pe.qc.fq DMS92_1.se.qc.fq DMS92_2.pe.qc.fq DMS92_2.se.qc.fq LEADING:2 TRAILING:2 \
+SLIDINGWINDOW:4:15 \
+MINLEN:25
+```
+
+Most reads were surviving (97.52%), which is good, and so we will move these files into the Trimmed_reads folder.
 
 
-		trimmomatic PE DMS92_2_S159_R1_001.fastq.gz DMS92_2_S159_R2_001.fastq.gz DMS92_1.pe.qc.fastq.gz DMS92_1.se.qc.fastq.gz DMS92_2.pe.qc.fastq.gz DMS92_2.se.qc.fastq.gz LEADING:2 TRAILING:2 \
-		SLIDINGWINDOW:4:15 \
-		MINLEN:25
-		
-		
+## Assembling Reads to De Novo Assembly with assistance
+
+
+
+```		
 conda install -c bioconda spades
-spades.py -1 DMS92_1.pe.qc.fastq.gz -2 DMS92_2.pe.qc.fastq.gz -o De_novo_DMS092 --trusted-contigs /path/to/contigs.fasta
-
-		
+spades.py -1 ./Trimmed_reads/DMS92_1.pe.qc.fq -2 ./Trimmed_reads/DMS92_2.pe.qc.fq -o De_novo_DMS092 --trusted-contigs /media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta
 ```
+ bbmap.sh in=./Files_for_cleanning_reads/out_DMS092.fq ref=./De_novo_DMS092/contigs.fasta covstats=covstats.txt
+
 
 ```
+fastANI -q ./De_novo_DMS092/contigs.fasta -r /media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta --visualize -o ANI_comparison.out
+
 fastANI -q /path/to/genome_to_map.fasta -r /path/to/genome_to_compare_to.fasta --visualize -o ANI_comparison.out
+
 ```
+ minimap2 -c /media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta ~/pSelAct_KO_Clavibacter/Files_for_cleanning_reads/out_DMS092.fq > align_reads_to_reference.paf
