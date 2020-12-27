@@ -1,5 +1,7 @@
 # Methods for Genome Assembly, Comparison, and Mappping of Reads for CASJ002ΔchpE-ppaC 
 
+## Table of C
+
 
 ## Downloading Reads from Google Drive - still broken need to fix
 
@@ -106,7 +108,7 @@ sourmash compare *.sig -o cmp
 sourmash plot cmp --labels
 ```
 
-![](/Files_for_cleanning_reads/cmp.matrix.png)
+![](/Files_for_cleanning_reads/cmp.matrix.png | width=50)
 
 Here we can see our reads match closely to our Clavibacter genome CASJ002 based on the Jaccrd distance. However, one thing that we notice is now our paired reads are interweived. We need to seperate these back out using reformate.sh. We also need to rename the file since these reads are from DMS092 isolate.
 
@@ -120,7 +122,7 @@ Now we need to recheck the quality of the filtered reads to assess how much trim
 fastqc out_DMS092_R1.fq out_DMS092_R2.fq
 ```
 
-We can find the results [here](/fastqc_resultd/out_DMS092_R1_fastqc.html) for read set 1 and [here](fastqc_resultd/out_DMS092_R2_fastqc.html) for read set 2. This is to quickly assess our read quality. Overall,the read quality looks ok. The 
+We can find the results [here](/fastqc_resultd/out_DMS092_R1_fastqc.html) for read set 1 and [here](/fastqc_resultd/out_DMS092_R2_fastqc.html) for read set 2. This is to quickly assess our read quality. Overall,the read quality looks ok. The 
 
 
 
