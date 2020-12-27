@@ -108,7 +108,7 @@ sourmash compare *.sig -o cmp
 sourmash plot cmp --labels
 ```
 
-![](/Files_for_cleanning_reads/cmp.matrix.png | width=50)
+![](/Files_for_cleanning_reads/cmp.matrix.png =100x50)
 
 Here we can see our reads match closely to our Clavibacter genome CASJ002 based on the Jaccrd distance. However, one thing that we notice is now our paired reads are interweived. We need to seperate these back out using reformate.sh. We also need to rename the file since these reads are from DMS092 isolate.
 
