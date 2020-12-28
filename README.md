@@ -14,4 +14,4 @@ The script tracks the genomics necessary to conclude if using the pSelAct system
 
 |Species|Strain|Gene Knockout|Details on Methods|
 |------|----------|---------|-------------------|
-|C. michiganensis|CASJ002|chpE-ppaC|[Assembly and Mapping Reads for CASJ002ΔchpE-ppaC](/Assembly_and_Mapping_methods_DMS092)|
+|C. michiganensis|CASJ002|chpE-ppaC|[Assembly and Mapping Reads for CASJ002ΔchpE-ppaC](Assembly_and_Mapping_methods_DMS092.md)|
