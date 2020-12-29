@@ -147,21 +147,38 @@ MINLEN:25
 Most reads were surviving (97.52%), which is good, and so we will move these files into the Trimmed_reads folder.
 
 
-## Assembling Reads to De Novo Assembly with assistance
+## Assembling Reads to De Novo Assembly + Compare Contigs to Reference and KO Region
 
 
 
 ```		
 conda install -c bioconda spades
-spades.py -1 ./Trimmed_reads/DMS92_1.pe.qc.fq -2 ./Trimmed_reads/DMS92_2.pe.qc.fq -o De_novo_DMS092 --trusted-contigs /media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta
+spades.py -1 ./Trimmed_reads/DMS92_1.pe.qc.fq -2 ./Trimmed_reads/DMS92_2.pe.qc.fq -o De_novo_DMS092
 ```
- bbmap.sh in=./Files_for_cleanning_reads/out_DMS092.fq ref=./De_novo_DMS092/contigs.fasta covstats=covstats.txt
 
+To check the coverage of the assembly:
+```
+bbmap.sh in=./Files_for_cleanning_reads/out_DMS092.fq ref=./De_novo_DMS092/contigs.fasta covstats=covstats.txt
+```
 
+Now we are going to use minimap2 to map different sets of contigs, regions, and genomes against each other to assess 1) the KO is real and 2) no major other structural changes occured.
+
+```
+minimap2 -c ~/pSelAct_KO_Clavibacter/NODE_34_length_22973_cov_31.027577.fasta ~/pSelAct_KO_Clavibacter/5Flank_thorough_3Flank_DMS092.fasta > align_contig_to_region.paf
+
+minimap2 -c ~/pSelAct_KO_Clavibacter/5Flank_thorough_3Flank_DMS092.fasta ~/pSelAct_KO_Clavibacter/NODE_34_length_22973_cov_31.027577.fasta > align_contig_to_region_coverage.paf
+
+minimap2 -c ~/pSelAct_KO_Clavibacter/De_novo_DMS092/contigs.fasta ~/pSelAct_KO_Clavibacter/GCA_002150935.1.fa.gz > align_contigs_to_reference.paf
+
+minimap2 -c ~/pSelAct_KO_Clavibacter/GCA_002150935.1.fa.gz ~/pSelAct_KO_Clavibacter/De_novo_DMS092/contigs.fasta > align_contigs_to_reference_coverage.paf
+
+```
+
+We can also use fastANI to confirm
 ```
 fastANI -q ./De_novo_DMS092/contigs.fasta -r /media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta --visualize -o ANI_comparison.out
 
 fastANI -q /path/to/genome_to_map.fasta -r /path/to/genome_to_compare_to.fasta --visualize -o ANI_comparison.out
 
 ```
- minimap2 -c /media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta ~/pSelAct_KO_Clavibacter/Files_for_cleanning_reads/out_DMS092.fq > align_reads_to_reference.paf
+ 
