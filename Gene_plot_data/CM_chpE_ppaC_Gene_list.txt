@@ -1,0 +1,8 @@
+molecule,gene,start,end,strand,direction
+chromosome,CMMCAS02_00240,46748,47155,reverse,-1
+chromosome,chpE,47597,48430,reverse,-1
+chromosome,ppaA,49239,50219,forward,1
+chromosome,ppaB1,50366,51370,reverse,-1
+chromosome,pelA1,51892,52422,forward,1
+chromosome,ppaC,52746,53531,reverse,-1
+chromosome,CMMCAS02_00275,54240,55082,forward,1
