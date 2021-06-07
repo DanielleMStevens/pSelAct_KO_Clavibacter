@@ -3,10 +3,12 @@
 ## Table of Contents
   [Downloading Reads from Google Drive](#Downloading-Reads-from-Google-Drive)
   </br>
-  [Checking for Contamination + Assessing Read Quality](#Checking-for-Contamination-Assessing-Read-Quality)
+  [Assessing Read Quality](#Assessing-Read-Quality)
+  </br>
+  [Checking for Contamination](#Checking-for-Contamination)
   </br>
   [Trimming Reads](#Trimming-Reads)
-  </br.
+  </br>
   [Assembling Reads to De Novo Assembly](#Assembling-Reads-to-De-Novo-Assembly)
   </br>
   [Compare Contigs to Reference and KO Region](#Compare-Contigs-to-Reference-and-KO-Region)
@@ -39,7 +41,7 @@ https://drive.google.com/file/d/1JZWkfG4Zx_b4tIx5YsevPqMuq8hF3_am/view?usp=shari
 
 ```
 
-## 2. Checking for Contamination + Assessing Read Quality 
+## 2. Assessing Read Quality 
 
 First, we are going to check the read quality of our dataset. We can use fastqc via conda to easily check this.
 
@@ -52,17 +54,22 @@ We can find the results [here](/raw_reads/DMS92_2_S159_R1_001_fastqc.html) for r
 
 Overall, the read quality looks ok, but based on the average GC-content around 48 percent (which is way too low for Clavibacter) and the bimodal distribution of the sequences across GC-content means there is definitely contamination in our read data set. We can them confirm this using BBtools sendsketch script, which breaks up reads into kmers and returns the closest hits. 
 
+
+## 3. Checking for Contamination
+
+
 ```
 For example:
 sendsketch.sh DMS92_2_S159_R1_001.fastq.gz
 sendsketch.sh DMS92_2_S159_R2_001.fastq.gz
 ```
 
-![](/images/DMS092_R1_sendsketch.png)
-![](/images/DMS092_R2_sendsketch.png)
+![](/images_for_github/DMS092_R1_sendsketch.png)
+![](/images_for_github/DMS092_R2_sendsketch.png)
 
 
 This output above shows that we have some significant contamination of Terribacillus. This will be problematic to downstream processing steps. Since the reads are mostly from two species, we will do a binning approach where we will map the reads to each genome, Clavibacter michiganensis and Terribacillus, and seperate them into groups. We will download two genomes, both Terribacillus species, to perform this. More info on this can be found [here](http://seqanswers.com/forums/showthread.php?t=41288).
+
 
 | | Species|Strain|RefSeq Accession|
 |-----------|--------------|---------------|--------------|
@@ -108,7 +115,7 @@ And we can confirm our reads are cleaned up by sending this output through sends
 sendsketch.sh in=./out_CM_CASJ002.fq
 ```
 
-![](/images/Cleaned_binned_reads_DMS092.png)
+![](/images_for_github/Cleaned_binned_reads_DMS092.png)
 
 
 Additionally, we can use [sourmash](https://github.com/dib-lab/sourmash) to further confirm this:
@@ -120,7 +127,7 @@ sourmash compare *.sig -o cmp
 sourmash plot cmp --labels
 ```
 
-![](/Files_for_cleanning_reads/cmp.matrix.png)
+![](/3_contamination_check/sourmash_analysis/cmp.matrix.png)
 
 Here we can see our reads match closely to our Clavibacter genome CASJ002 based on the Jaccrd distance. However, one thing that we notice is now our paired reads are interweived. We need to seperate these back out using reformate.sh. We also need to rename the file since these reads are from DMS092 isolate.
 
@@ -134,18 +141,18 @@ Now we need to recheck the quality of the filtered reads to assess how much trim
 fastqc out_DMS092_R1.fq out_DMS092_R2.fq
 ```
 
-We can find the results [here](/fastqc_resultd/out_DMS092_R1_fastqc.html) for read set 1 and [here](/fastqc_resultd/out_DMS092_R2_fastqc.html) for read set 2. This is to quickly assess our read quality. Overall, the read quality looks ok. They need a little trimming on the end, but that shouldn't be a problem.
+We can find the results [here](/3_contamination_check/fastqc_results/out_DMS092_R1_fastqc.html) for read set 1 and [here](/3_contamination_check/fastqc_results/out_DMS092_R2_fastqc.html) for read set 2. This is to quickly assess our read quality. Overall, the read quality looks ok. They need a little trimming on the end, but that shouldn't be a problem.
 
 
 
-## Trimming Reads 
+## 4. Trimming Reads 
 
 Now that are reads are removed from contaminants, we need to trim off the adapters and the edges were the quality drops. Here we can use a tool called trimmomatic, which again we can install using conda.
 
 ```
 conda install -c conda-forge -c bioconda trimmomatic
 
-trimmomatic PE out_DMS092_R1.fq out_DMS092_R2.fq DMS92_1.pe.qc.fq DMS92_1.se.qc.fq DMS92_2.pe.qc.fq DMS92_2.se.qc.fq\
+trimmomatic PE out_DMS092_R1.fq out_DMS092_R2.fq DMS92_1.pe.qc.fq DMS92_1.se.qc.fq DMS92_2.pe.qc.fq DMS92_2.se.qc.fq \
 LEADING:2 TRAILING:2 \
 SLIDINGWINDOW:4:15 \
 MINLEN:25
@@ -154,8 +161,7 @@ MINLEN:25
 Most reads were surviving (97.52%), which is good, and so we will move these files into the Trimmed_reads folder.
 
 
-## Assembling Reads to De Novo Assembly
-
+## 5. Assembling Reads via Guided De Novo Assembly
 
 
 ```		
