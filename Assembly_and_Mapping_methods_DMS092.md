@@ -6,6 +6,8 @@
   [Checking for Contamination + Assessing Read Quality](#Checking-for-Contamination-Assessing-Read-Quality)
   </br>
   [Trimming Reads](#Trimming-Reads)
+  [Assembling Reads to De Novo Assembly](#Assembling Reads to De Novo Assembly)
+  [Compare Contigs to Reference and KO Region](#Compare Contigs to Reference and KO Region)
 
 
 ## Downloading Reads from Google Drive 
@@ -148,7 +150,7 @@ MINLEN:25
 Most reads were surviving (97.52%), which is good, and so we will move these files into the Trimmed_reads folder.
 
 
-## Assembling Reads to De Novo Assembly + Compare Contigs to Reference and KO Region
+## Assembling Reads to De Novo Assembly
 
 
 
@@ -161,6 +163,9 @@ To check the coverage of the assembly:
 ```
 bbmap.sh in=./Files_for_cleanning_reads/out_DMS092.fq ref=./De_novo_DMS092/contigs.fasta covstats=covstats.txt
 ```
+
+## Compare Contigs to Reference and KO Region
+
 
 Now we are going to use minimap2 to map different sets of contigs, regions, and genomes against each other to assess 1) the KO is real and 2) no major other structural changes occured.
 
