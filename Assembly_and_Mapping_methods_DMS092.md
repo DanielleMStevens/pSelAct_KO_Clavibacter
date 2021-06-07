@@ -47,7 +47,7 @@ First, we are going to check the read quality of our dataset. We can use fastqc 
 
 ```
 conda install -c bioconda fastqc
-fastqc DMS92_2_S159_R1_001.fastq.gz DMS92_2_S159_R2_001.fastq.gz
+fastqc ./2_raw_reads_qc/DMS92_2_S159_R1_001.fastq.gz ./2_raw_reads_qc/DMS92_2_S159_R2_001.fastq.gz
 ```
 
 We can find the results [here](/raw_reads/DMS92_2_S159_R1_001_fastqc.html) for read set 1 and [here](/raw_reads/DMS92_2_S159_R2_001_fastqc.html) for read set 2 and quickly assess our read quality. To view these files, copy and paste each url (after selecting the file) into https://htmlpreview.github.io/ to view report.
@@ -60,8 +60,8 @@ Overall, the read quality looks ok, but based on the average GC-content around 4
 
 ```
 For example:
-sendsketch.sh DMS92_2_S159_R1_001.fastq.gz
-sendsketch.sh DMS92_2_S159_R2_001.fastq.gz
+sendsketch.sh ./2_raw_reads_qc/DMS92_2_S159_R1_001.fastq.gz
+sendsketch.sh ./2_raw_reads_qc/DMS92_2_S159_R2_001.fastq.gz
 ```
 
 ![](/images_for_github/DMS092_R1_sendsketch.png)
@@ -94,9 +94,8 @@ bit-dl-ncbi-assemblies -w Terribacillus_genomes_filter_contamination.txt -f fast
 Now that we have both genomes downloaded, we can use bbsplit.sh from bbtools to bin the reads based on their hits. 
 
 ```
-bbsplit.sh in1=./raw_reads/DMS92_2_S159_R1_001.fastq.gz in2=./raw_reads/DMS92_2_S159_R2_001.fastq.gz\
-ref=/media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta,./GCF_000725365.1.fa.gz,\
-./GCF_900110015.1.fa.gz basename=out_%.fq outu1=clean1.fq outu2=clean2.fq
+bbsplit.sh in1=./2_raw_reads_qc/DMS92_2_S159_R1_001.fastq.gz in2=./2_raw_reads_qc/DMS92_2_S159_R2_001.fastq.gz \
+ref=/media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta,./GCF_000725365.1.fa.gz,./GCF_900110015.1.fa.gz \ basename=out_%.fq outu1=clean1.fq outu2=clean2.fq
 ```
 
 As we can see from the output, we had a lot of reads that were the contaminant:
@@ -106,8 +105,8 @@ As we can see from the output, we had a lot of reads that were the contaminant:
 |out_CM_CASJ002.fq|Reads Mapped to Our Genome|217 Mb|
 |out_GCF_000725365.1.fq|Reads Mapped to Contaminant Reference Genome #1|440.8 Mb|
 |out_GCF_900110015.1.fq|Reads Mapped to Contaminant Reference Genome #2|242.3 Mb|
-|clean1.fq|forward reads which did not map|89 Mb|
-|clean2.fq|reveres reads which did not map|89.1 Mb|
+|clean1.fq|forward reads which did not map|80.3 Mb|
+|clean2.fq|reveres reads which did not map|80.3 Mb|
 
 And we can confirm our reads are cleaned up by sending this output through sendsketch.sh again.
 
@@ -174,7 +173,7 @@ To check the coverage of the assembly:
 bbmap.sh in=./Files_for_cleanning_reads/out_DMS092.fq ref=./De_novo_DMS092/contigs.fasta covstats=covstats.txt
 ```
 
-## Compare Contigs to Reference and KO Region
+## 6. Compare Contigs to Reference
 
 
 Now we are going to use minimap2 to map different sets of contigs, regions, and genomes against each other to assess 1) the KO is real and 2) no major other structural changes occured.
@@ -197,6 +196,9 @@ minimap2 -c ~/pSelAct_KO_Clavibacter/GCA_002150935.1.fa.gz \
 ~/pSelAct_KO_Clavibacter/De_novo_DMS092/contigs.fasta > align_contigs_to_reference_coverage.paf
 
 ```
+
+## 6. Compare Contigs to KO Region
+
 
 We can also use fastANI to confirm
 ```
