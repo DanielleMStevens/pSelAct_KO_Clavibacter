@@ -1,0 +1,8 @@
+clean1_v2.fq
+clean2_v2.fq
+GCA_002150935.1.fa
+./Files_for_cleanning_reads/GCF_000725365.1.fa
+./Files_for_cleanning_reads/GCF_900110015.1.fa
+out_GCA_002150935.1.fq
+out_GCF_000725365.1.fq
+out_GCF_900110015.1.fq
