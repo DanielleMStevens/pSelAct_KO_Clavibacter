@@ -6,11 +6,13 @@
   [Checking for Contamination + Assessing Read Quality](#Checking-for-Contamination-Assessing-Read-Quality)
   </br>
   [Trimming Reads](#Trimming-Reads)
-  [Assembling Reads to De Novo Assembly](#Assembling Reads to De Novo Assembly)
-  [Compare Contigs to Reference and KO Region](#Compare Contigs to Reference and KO Region)
+  </br.
+  [Assembling Reads to De Novo Assembly](#Assembling-Reads-to-De-Novo-Assembly)
+  </br>
+  [Compare Contigs to Reference and KO Region](#Compare-Contigs-to-Reference-and-KO-Region)
 
 
-## Downloading Reads from Google Drive 
+## 1. Downloading Reads from Google Drive 
 This is broken and need to be fixed.
 
 First, I have stored the raw read data in google drive as a safe keeping. In order to then work with it, we need to download it. To do so, we can use wget and bypass some of the security measures by adding the '--ni-check-certificate'. To find more information, check out this [page](https://medium.com/tinghaochen/how-to-download-files-from-google-drive-through-terminal-4a6802707dbb).
@@ -37,7 +39,7 @@ https://drive.google.com/file/d/1JZWkfG4Zx_b4tIx5YsevPqMuq8hF3_am/view?usp=shari
 
 ```
 
-## Checking for Contamination + Assessing Read Quality 
+## 2. Checking for Contamination + Assessing Read Quality 
 
 First, we are going to check the read quality of our dataset. We can use fastqc via conda to easily check this.
 
@@ -46,7 +48,9 @@ conda install -c bioconda fastqc
 fastqc DMS92_2_S159_R1_001.fastq.gz DMS92_2_S159_R2_001.fastq.gz
 ```
 
-We can find the results [here](/raw_reads/DMS92_2_S159_R1_001_fastqc.html) for read set 1 and [here](/raw_reads/DMS92_2_S159_R2_001_fastqc.html) for read set 2 and quickly assess our read quality. Overall, the read quality looks ok, but based on the average GC-content around 48 percent (which is way too low for Clavibacter) and the bimodal distribution of the sequences across GC-content means there is definitely contamination in our read data set. We can them confirm this using BBtools sendsketch script, which breaks up reads into kmers and returns the closest hits. 
+We can find the results [here](/raw_reads/DMS92_2_S159_R1_001_fastqc.html) for read set 1 and [here](/raw_reads/DMS92_2_S159_R2_001_fastqc.html) for read set 2 and quickly assess our read quality. To view these files, copy and paste each url (after selecting the file) into https://htmlpreview.github.io/ to view report.
+
+Overall, the read quality looks ok, but based on the average GC-content around 48 percent (which is way too low for Clavibacter) and the bimodal distribution of the sequences across GC-content means there is definitely contamination in our read data set. We can them confirm this using BBtools sendsketch script, which breaks up reads into kmers and returns the closest hits. 
 
 ```
 For example:
