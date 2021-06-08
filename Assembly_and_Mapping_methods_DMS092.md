@@ -102,7 +102,7 @@ As we can see from the output, we had a lot of reads that were the contaminant:
 
 |File Name|Description|Mb of Data|
 |--------|---------|------------|
-|out_CM_CASJ002.fq|Reads Mapped to Our Genome|217 Mb|
+|out_CM_CASJ002.fq|Reads Mapped to Our Genome|234 Mb|
 |out_GCF_000725365.1.fq|Reads Mapped to Contaminant Reference Genome #1|440.8 Mb|
 |out_GCF_900110015.1.fq|Reads Mapped to Contaminant Reference Genome #2|242.3 Mb|
 |clean1.fq|forward reads which did not map|80.3 Mb|
@@ -134,7 +134,7 @@ Here we can see our reads match closely to our Clavibacter genome CASJ002 based 
 reformat.sh in=./out_DMS092.fq out1=out_DMS092_R1.fq out2=out_DMS092_R2.fq
 ```
 
-Now we need to recheck the quality of the filtered reads to assess how much trimming we need do (outside of the adapters themselves).
+These files are now 117.3 Mb each. Now we need to recheck the quality of the filtered reads to assess how much trimming we need do (outside of the adapters themselves).
 
 ```
 fastqc out_DMS092_R1.fq out_DMS092_R2.fq
@@ -162,16 +162,23 @@ Most reads were surviving (97.52%), which is good, and so we will move these fil
 
 ## 5. Assembling Reads via Guided De Novo Assembly
 
+Since the overall read coverage is low, we going to take a slightly a typical approach. We will de-novo assemble the trimmed reads and then scaffold the contigs based on the wildtype reference genome. This should prevent the assembler from filling in the knocked out region based on the reference. 
 
 ```		
 conda install -c bioconda spades
-spades.py -1 ./Trimmed_reads/DMS92_1.pe.qc.fq -2 ./Trimmed_reads/DMS92_2.pe.qc.fq -o De_novo_DMS092
+spades.py -1 ./4_trimmed_reads/DMS92_1.pe.qc.fq -2 ./4_trimmed_reads/DMS92_2.pe.qc.fq -o DMS092 --careful
 ```
+
+
+We can then scaffold the genome by running it through [medusa](https://academic.oup.com/bioinformatics/article/31/15/2443/188083). We will select the contigs output from spades as the target draft genome and the wildtype reference genome as comparison genomes. But we notice that they are all on the negative strand. The easiest way to reverse complement the contigs based on the reference usign [contiguator2](http://contiguator.sourceforge.net). This will align the contigs and we can download each contig (in this case 3) and put back in the fasta file (from chromosome, pCM1, and pCM2) and save as DMS092_scafold.fasta.
+
 
 To check the coverage of the assembly:
 ```
-bbmap.sh in=./Files_for_cleanning_reads/out_DMS092.fq ref=./De_novo_DMS092/contigs.fasta covstats=covstats.txt
+bbmap.sh in=./3_contamination_check/output_cleanning_reads/out_CM_CASJ002.fq.gz ref=./5.fasta covstats=covstats.txt
 ```
+
+This file is moved to 5_assemble_genome for reference.
 
 ## 6. Compare Contigs to Reference
 
@@ -179,29 +186,19 @@ bbmap.sh in=./Files_for_cleanning_reads/out_DMS092.fq ref=./De_novo_DMS092/conti
 Now we are going to use minimap2 to map different sets of contigs, regions, and genomes against each other to assess 1) the KO is real and 2) no major other structural changes occured.
 
 ```
-# dotplot - comparion in key region
-minimap2 -c ~/pSelAct_KO_Clavibacter/NODE_34_length_22973_cov_31.027577.fasta \
-~/pSelAct_KO_Clavibacter/5Flank_thorough_3Flank_DMS092.fasta > align_contig_to_region.paf
-
-# Coverage plot - region comparions
-minimap2 -c ~/pSelAct_KO_Clavibacter/5Flank_thorough_3Flank_DMS092.fasta \
-~/pSelAct_KO_Clavibacter/NODE_34_length_22973_cov_31.027577.fasta > align_contig_to_region_coverage.paf
-
 # dotplot - whole genome comparions
-minimap2 -c ~/pSelAct_KO_Clavibacter/De_novo_DMS092/contigs.fasta \
-~/pSelAct_KO_Clavibacter/GCA_002150935.1.fa.gz > align_contigs_to_reference.paf
-
-# Coverage plot - whole genome comparions
-minimap2 -c ~/pSelAct_KO_Clavibacter/GCA_002150935.1.fa.gz \
-~/pSelAct_KO_Clavibacter/De_novo_DMS092/contigs.fasta > align_contigs_to_reference_coverage.paf
-
+minimap2 -c ./GCA_002150935.1.fa ./5_assemble_genome/DMS092_scaffold.fasta > align_contigs_to_reference.paf
 ```
 
-## 6. Compare Contigs to KO Region
+We can then open up visualize.R script and run the first half which will plot the output as a dotplot using the pafr R package.
+
+## 7. Compare Contigs to KO Region
 
 
 We can also use fastANI to confirm
 ```
+
+
 fastANI -q ./De_novo_DMS092/contigs.fasta -r /media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta --visualize -o ANI_comparison.out
 
 fastANI -q /path/to/genome_to_map.fasta -r /path/to/genome_to_compare_to.fasta --visualize -o ANI_comparison.out
