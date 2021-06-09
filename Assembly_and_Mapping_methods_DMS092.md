@@ -125,7 +125,6 @@ sourmash compute -k 31 *.fq *.fa /media/danimstevens/Second_storage/Genomes/DNA_
 sourmash compare *.sig -o cmp
 sourmash plot cmp --labels
 ```
-
 ![](/3_contamination_check/sourmash_analysis/cmp.matrix.png)
 
 Here we can see our reads match closely to our Clavibacter genome CASJ002 based on the Jaccrd distance. However, one thing that we notice is now our paired reads are interweived. We need to seperate these back out using reformate.sh. We also need to rename the file since these reads are from DMS092 isolate.
@@ -202,6 +201,6 @@ fastANI -q ./7_compare_contigs_to_region/DMS092_region_of_interest.fasta -r ./7_
 --visualize -o align_to_region.out --fragLen 600
 ```
  
- Finally, we can then open up visualize.R script and run the second half, which will plot a comparison of the synteny/conserved structure between the two regions. The region of interest was manually pulled out from the scaffold genome before running fastANI above.
+Finally, we can then open up visualize.R script and run the second half, which will plot a comparison of the synteny/conserved structure between the two regions. The region of interest was manually pulled out from the scaffold genome before running fastANI above.
 
 
