@@ -180,6 +180,7 @@ bbmap.sh in=./3_contamination_check/output_cleanning_reads/out_CM_CASJ002.fq.gz 
 
 This file is moved to 5_assemble_genome for reference.
 
+
 ## 6. Compare Contigs to Reference
 
 
@@ -197,11 +198,6 @@ We can then open up visualize.R script and run the first half which will plot th
 
 We can also use fastANI to confirm
 ```
-
-
 fastANI -q ./De_novo_DMS092/contigs.fasta -r /media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta --visualize -o ANI_comparison.out
-
-fastANI -q /path/to/genome_to_map.fasta -r /path/to/genome_to_compare_to.fasta --visualize -o ANI_comparison.out
-
 ```
  
