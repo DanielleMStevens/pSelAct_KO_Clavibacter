@@ -15,7 +15,6 @@
 #install.packages(devtools)
 #devtools::install_github("dwinter/pafr")
 library(pafr, quietly=TRUE)
-library(ggpubr)
 library(ggplot2)
 library(genoPlotR)
 
@@ -28,7 +27,6 @@ library(genoPlotR)
 
 whole_genome_alignment <- pafr::read_paf(file_name = file.choose()) # choose align_contigs_to_reference.paf
 
-#
 
 ######################################################################
 # import files to plot
@@ -62,10 +60,6 @@ dev.off()
 # Uses genoPlotR package: http://genoplotr.r-forge.r-project.org
 ######################################################
 
-#on the terminal
-#  fastANI -q ./NODE_34_length_22973_cov_31.027577.fasta -r 5Flank_thorough_3Flank_DMS092.fasta --visualize -o ANI_comp.out --fragLen 1000
-
-
 ######################################################################
 # import files to plot
 ######################################################################
@@ -73,29 +67,28 @@ dev.off()
 #Parse command line arguments
 query_fasta <- file.choose()     # ./7_compare_contigs_to_region/5Flank_thorough_3Flank_DMS092.fasta
 
-subject_fasta <- file.choose()    # ./DMS092_contigs.fast
+subject_fasta <- file.choose()    # ./7_compare_contigs_to_region/DMS02_region_of_interest.fasta
 
-fastANI_visual_file <- file.choose() #output from fastANI -> compare_contigs_to_region.out.visual
+fastANI_visual_file <- file.choose() #output from fastANI -> ./7_compare_contigs_to_region/compare_contigs_to_region.out.visual
 
 ######################################################################
 # read files 
 ######################################################################
 
-#Read fastANI output
-comparison <- try(genoPlotR::read_comparison_from_blast(fastANI_visual_file))
 
 #Read sequences into genoPlotR objects
 Query <- try(genoPlotR::read_dna_seg_from_file(query_fasta))
 Ref <- try(genoPlotR::read_dna_seg_from_file(subject_fasta))
 
-#plotTitle = paste(query_fasta, subject_fasta, sep=" v/s ")
 
-#pdf( paste(fastANI_visual_file,".pdf",sep="") )
+#Read fastANI output
+comparison <- try(genoPlotR::read_comparison_from_blast(fastANI_visual_file))
 
-genoPlotR::plot_gene_map(dna_segs = list(Ref, Query), 
+
+genoPlotR::plot_gene_map(dna_segs = list(Query, Ref), 
               comparisons = list(comparison), 
               main = "", scale = FALSE, 
-              dna_seg_label_col="black",
-              scale_cex = 1, n_scale_ticks = 4)
-
-dev.off()
+              dna_seg_label_col = "black",
+              seg_plot_yaxis = 2,
+              annotation_cex = 0.5,
+              scale_cex = 1.5, n_scale_ticks = 4)

@@ -17,3 +17,10 @@ The script tracks the genomics necessary to conclude if using the pSelAct system
 |C. michiganensis|CASJ002|chpE-ppaC|[Assembly and Mapping Reads for CASJ002ΔchpE-ppaC](Assembly_and_Mapping_methods_DMS092.md)|
 
 
+Dot plot comparing whole genome of WT and KO |  Comparing region from 5'Flank through 3'Flank between WT and KO 
+:-------------------------:|:-------------------------:
+![](/Final_Figures/Figure2D.pdf) |  ![](/Final_Figures/Figure2E.pdf)
+
+
+
+

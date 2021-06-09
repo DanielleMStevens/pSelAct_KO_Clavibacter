@@ -198,6 +198,6 @@ We can then open up visualize.R script and run the first half which will plot th
 
 We can also use fastANI to confirm
 ```
-fastANI -q ./De_novo_DMS092/contigs.fasta -r /media/danimstevens/Second_storage/Genomes/DNA_contigs/CM_CASJ002.fasta --visualize -o ANI_comparison.out
-```
+ fastANI -q ./DMS092_region_contig33.fasta -r ./7_compare_contigs_to_region/5Flank_thorough_3Flank_DMS092.fasta  --visualize -o align_to_region.out --fragLen 600
+ ```
  

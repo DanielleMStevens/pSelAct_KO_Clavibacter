@@ -1,0 +1,6 @@
+./7_compare_contigs_to_region/5Flank_thorough_3Flank_DMS092.fasta	./7_compare_contigs_to_region/DMS092_region_of_interest.fasta	97.2974	NA	NA	NA	0	599	108	707	NA	NA
+./7_compare_contigs_to_region/5Flank_thorough_3Flank_DMS092.fasta	./7_compare_contigs_to_region/DMS092_region_of_interest.fasta	95.8797	NA	NA	NA	600	1199	722	1321	NA	NA
+./7_compare_contigs_to_region/5Flank_thorough_3Flank_DMS092.fasta	./7_compare_contigs_to_region/DMS092_region_of_interest.fasta	96.2117	NA	NA	NA	1200	1799	1668	2267	NA	NA
+./7_compare_contigs_to_region/5Flank_thorough_3Flank_DMS092.fasta	./7_compare_contigs_to_region/DMS092_region_of_interest.fasta	81.1223	NA	NA	NA	6600	7199	1971	2570	NA	NA
+./7_compare_contigs_to_region/5Flank_thorough_3Flank_DMS092.fasta	./7_compare_contigs_to_region/DMS092_region_of_interest.fasta	99.8742	NA	NA	NA	7200	7799	2323	2922	NA	NA
+./7_compare_contigs_to_region/5Flank_thorough_3Flank_DMS092.fasta	./7_compare_contigs_to_region/DMS092_region_of_interest.fasta	99.8327	NA	NA	NA	7800	8399	2922	3521	NA	NA
