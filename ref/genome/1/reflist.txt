@@ -1,0 +1,3 @@
+/home/danimstevens/pSelAct_KO_Clavibacter/GCA_002150935.1.fa
+/home/danimstevens/pSelAct_KO_Clavibacter/Files_for_cleanning_reads/GCF_000725365.1.fa
+/home/danimstevens/pSelAct_KO_Clavibacter/Files_for_cleanning_reads/GCF_900110015.1.fa

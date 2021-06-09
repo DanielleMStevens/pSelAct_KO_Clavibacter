@@ -1,0 +1,13 @@
+#Summary
+#Generated on	Tue Jun 08 14:51:48 PDT 2021
+#Version	5
+chroms	1
+bases	3378975
+defined	3343975
+undefined	35000
+contigs	187
+scaffolds	3
+interpad	300
+source	/home/danimstevens/pSelAct_KO_Clavibacter/5_assemble_genome/DMS092_scaffold.fasta
+bytes	3405077
+last modified	1623187759617

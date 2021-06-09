@@ -1,0 +1,8 @@
+- "left reads":
+  - "/home/danimstevens/pSelAct_KO_Clavibacter/DMS092/corrected/DMS92_1.pe.qc.00.0_0.cor.fastq.gz"
+  "orientation": "fr"
+  "right reads":
+  - "/home/danimstevens/pSelAct_KO_Clavibacter/DMS092/corrected/DMS92_2.pe.qc.00.0_0.cor.fastq.gz"
+  "single reads":
+  - "/home/danimstevens/pSelAct_KO_Clavibacter/DMS092/corrected/DMS92__unpaired.00.0_0.cor.fastq.gz"
+  "type": "paired-end"

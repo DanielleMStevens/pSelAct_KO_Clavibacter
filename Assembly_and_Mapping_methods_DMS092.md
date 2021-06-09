@@ -191,13 +191,17 @@ Now we are going to use minimap2 to map different sets of contigs, regions, and 
 minimap2 -c ./GCA_002150935.1.fa ./5_assemble_genome/DMS092_scaffold.fasta > align_contigs_to_reference.paf
 ```
 
-We can then open up visualize.R script and run the first half which will plot the output as a dotplot using the pafr R package.
+We can then open up visualize.R script and run the first half, which will plot the output as a dotplot using the pafr R package.
 
 ## 7. Compare Contigs to KO Region
 
 
 We can also use fastANI to confirm
 ```
- fastANI -q ./DMS092_region_contig33.fasta -r ./7_compare_contigs_to_region/5Flank_thorough_3Flank_DMS092.fasta  --visualize -o align_to_region.out --fragLen 600
- ```
+fastANI -q ./7_compare_contigs_to_region/DMS092_region_of_interest.fasta -r ./7_compare_contigs_to_region/5Flank_thorough_3Flank_DMS092.fasta \
+--visualize -o align_to_region.out --fragLen 600
+```
  
+ Finally, we can then open up visualize.R script and run the second half, which will plot a comparison of the synteny/conserved structure between the two regions. The region of interest was manually pulled out from the scaffold genome before running fastANI above.
+
+

@@ -1,0 +1,36 @@
+Command line: /home/danimstevens/anaconda3/bin/spades.py	-1	/home/danimstevens/pSelAct_KO_Clavibacter/4_trimmed_reads/DMS92_1.pe.qc.fq	-2	/home/danimstevens/pSelAct_KO_Clavibacter/4_trimmed_reads/DMS92_2.pe.qc.fq	-o	/home/danimstevens/pSelAct_KO_Clavibacter/DMS092	--careful	
+
+System information:
+  SPAdes version: 3.13.0
+  Python version: 3.7.3
+  OS: Linux-5.4.0-65-generic-x86_64-with-debian-buster-sid
+
+Output dir: /home/danimstevens/pSelAct_KO_Clavibacter/DMS092
+Mode: read error correction and assembling
+Debug mode is turned OFF
+
+Dataset parameters:
+  Multi-cell mode (you should set '--sc' flag if input data was obtained with MDA (single-cell) technology or --meta flag if processing metagenomic dataset)
+  Reads:
+    Library number: 1, library type: paired-end
+      orientation: fr
+      left reads: ['/home/danimstevens/pSelAct_KO_Clavibacter/4_trimmed_reads/DMS92_1.pe.qc.fq']
+      right reads: ['/home/danimstevens/pSelAct_KO_Clavibacter/4_trimmed_reads/DMS92_2.pe.qc.fq']
+      interlaced reads: not specified
+      single reads: not specified
+      merged reads: not specified
+Read error correction parameters:
+  Iterations: 1
+  PHRED offset will be auto-detected
+  Corrected reads will be compressed
+Assembly parameters:
+  k: automatic selection based on read length
+  Repeat resolution is enabled
+  Mismatch careful mode is turned ON
+  MismatchCorrector will be used
+  Coverage cutoff is turned OFF
+Other parameters:
+  Dir for temp files: /home/danimstevens/pSelAct_KO_Clavibacter/DMS092/tmp
+  Threads: 16
+  Memory limit (in Gb): 62
+
