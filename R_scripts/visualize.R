@@ -1,10 +1,10 @@
 #-----------------------------------------------------------------------------------------------
 # Coaker Lab - Plant Pathology Department UC Davis
 # Author: Danielle M. Stevens
-# Last Updated: 07/06/2020
-# Script Purpose: 
-# Inputs: 
-# Outputs: 
+# Last Updated: 06/08/2021
+# Script Purpose: Plot comparisons of genomes between WT and KO
+# Inputs: Outputs from items 6 & 7 from methods
+# Outputs: Plots for items 6 & 7 from methods
 #-----------------------------------------------------------------------------------------------
 
 
