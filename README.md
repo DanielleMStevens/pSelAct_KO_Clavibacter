@@ -20,7 +20,7 @@ We can see based on the final figures below that acrross the genome even with lo
 
 |Dot plot comparing whole genome of WT and KO |  Comparing region from 5'Flank through 3'Flank between WT and KO |
 :-------------------------:|:-------------------------:
-![](https://github.com/DanielleMStevens/pSelAct_KO_Clavibacter/blob/main/Final_Figures/Figure2D.pdf) |  ![](Final_Figures/Figure2E.pdf)
+![](/images_for_github/Figure2D.png) |  ![](/images_for_github/Figure2E.png)
 
 
 Any questions or concerns, please feel free to submit an issue.
