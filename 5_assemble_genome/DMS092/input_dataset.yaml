@@ -1,0 +1,6 @@
+- "left reads":
+  - "/home/danimstevens/pSelAct_KO_Clavibacter/4_trimmed_reads/DMS92_1.pe.qc.fq"
+  "orientation": "fr"
+  "right reads":
+  - "/home/danimstevens/pSelAct_KO_Clavibacter/4_trimmed_reads/DMS92_2.pe.qc.fq"
+  "type": "paired-end"

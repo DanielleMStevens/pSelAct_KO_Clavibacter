@@ -1,0 +1,7 @@
+"bwa": "/home/danimstevens/anaconda3/share/spades-3.13.0-0/bin/spades-bwa"
+"dataset": "/home/danimstevens/pSelAct_KO_Clavibacter/DMS092/input_dataset.yaml"
+"log_filename": "log.properties"
+"max_nthreads": !!int "16"
+"output_dir": "/home/danimstevens/pSelAct_KO_Clavibacter/DMS092/mismatch_corrector/scaffolds"
+"strategy": "mapped_squared"
+"work_dir": "/home/danimstevens/pSelAct_KO_Clavibacter/DMS092/tmp/corrector_xkq0j1in"
