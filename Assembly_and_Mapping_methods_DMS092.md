@@ -15,7 +15,7 @@
 
 
 ## 1. Downloading Reads from Google Drive 
-This is broken and need to be fixed.
+This is broken and need to be fixed. But the reads can be accessed from Figshare (doi: https://doi.org/10.6084/m9.figshare.14810322.v1)
 
 First, I have stored the raw read data in google drive as a safe keeping. In order to then work with it, we need to download it. To do so, we can use wget and bypass some of the security measures by adding the '--ni-check-certificate'. To find more information, check out this [page](https://medium.com/tinghaochen/how-to-download-files-from-google-drive-through-terminal-4a6802707dbb).
 
